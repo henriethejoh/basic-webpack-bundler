@@ -1,4 +1,6 @@
+@use "./scss/reset";
 @use "./scss/header";
+@use "./scss/primaryMenu";
 :root {
 	--mainBg: salmon;
 }

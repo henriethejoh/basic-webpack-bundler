@@ -1,8 +1,8 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const path = require("path")
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin")
 
 module.exports = {
-	mode: "development",
+	mode: process.env.environment == "production" ? "production" : "development",
 	plugins: [new MiniCssExtractPlugin()],
 	module: {
 		rules: [
@@ -10,8 +10,28 @@ module.exports = {
 				test: /\.(s[ac]|c)ss$/i,
 				//test: path.resolve(__dirname, "src/scss/*"),
 				use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader", "postcss-loader"]
+			},{
+				test: /\.png$/i,
+				type: "asset"
 			}
 		]
 	},
-	devtool: "source-map"
+	optimization: {
+		minimizer: [
+			new ImageMinimizerPlugin({
+				minimizer: {
+					implementation: ImageMinimizerPlugin.imageminMinify,
+					options: {
+						plugins: [
+							["optipng", { optimizationLevel: 7 }]
+						]
+					}
+				}
+			})
+		]
+	},
+	devtool: "source-map",
+	devServer: {
+		static: "./dist"
+	}
 }

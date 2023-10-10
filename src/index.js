@@ -1,4 +1,4 @@
 import "./style.scss"
-
-const headline = "Welcome to the webpage"
-document.querySelector("h1").innerText = headline
+import "./scripts/headline"
+import "./scripts/burgermenu"
+import "./images/aubergine-feta.png"
